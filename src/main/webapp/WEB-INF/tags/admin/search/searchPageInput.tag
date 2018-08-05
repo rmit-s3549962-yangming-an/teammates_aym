@@ -26,8 +26,8 @@
 
 
 
-            <div class="col-md-12">
-              <div class="input-group input-group-lg">
+          <div class="col-md-12">
+            <div class="input-group input-group-lg">
 
 
                 <span class="input-group-btn">
@@ -36,16 +36,17 @@
                           id="searchButton" value="true">Search</button>
                 </span>
 
-                <input type="text" class="form-control" id="filterQuery"
-                       name="<%=Const.ParamsNames.ADMIN_SEARCH_KEY%>"
-                       value="${searchKey}">
+              <input type="text" class="form-control" id="filterQuery"
+                     name="<%=Const.ParamsNames.ADMIN_SEARCH_KEY%>"
+                     value="${searchKey}">
 
 
-              </div>
             </div>
+          </div>
 
         </div>
       </div>
     </div>
   </form>
 </div>
+
