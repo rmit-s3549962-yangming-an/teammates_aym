@@ -98,12 +98,12 @@ public final class Const {
     public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "User-submitted Error Report";
 
     static {
-        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.parseInstant("1970-12-31 12:00 AM +0000");
-        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.parseInstant("1970-06-22 12:00 AM +0000");
-        TIME_REPRESENTS_NEVER = TimeHelper.parseInstant("1970-11-27 12:00 AM +0000");
-        TIME_REPRESENTS_LATER = TimeHelper.parseInstant("1970-01-01 12:00 AM +0000");
-        TIME_REPRESENTS_NOW = TimeHelper.parseInstant("1970-02-14 12:00 AM +0000");
-        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.parseInstant("2011-01-01 12:00 AM +0000");
+        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.parseInstant("1970-12-31 12:00 上午 +0000");
+        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.parseInstant("1970-06-22 12:00 上午 +0000");
+        TIME_REPRESENTS_NEVER = TimeHelper.parseInstant("1970-11-27 12:00 上午 +0000");
+        TIME_REPRESENTS_LATER = TimeHelper.parseInstant("1970-01-01 12:00 上午 +0000");
+        TIME_REPRESENTS_NOW = TimeHelper.parseInstant("1970-02-14 12:00 上午 +0000");
+        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.parseInstant("2011-01-01 12:00 上午 +0000");
     }
 
     /*
@@ -185,6 +185,8 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_PRAISE_ADD,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_PRAISE_DELETE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH,
                         ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
@@ -438,6 +440,7 @@ public final class Const {
         public static final String COMMENT_ADD = "Add comment";
         public static final String COMMENT_EDIT = "Edit this comment";
         public static final String COMMENT_DELETE = "Delete this comment";
+        public static final String COMMENT_LIKE = "Like this comment";
 
         public static final String SEARCH_STUDENT = "Search for student's information, e.g. name, email";
 
@@ -1006,6 +1009,8 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT = "/page/instructorFeedbackResponseCommentEdit";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE =
                 "/page/instructorFeedbackResponseCommentDelete";
+        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_PRAISE_ADD = "/page/instructorFeedbackResponseCommentPraiseAdd";
+        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_PRAISE_DELETE = "/page/instructorFeedbackResponseCommentPraiseDelete";
 
         public static final String INSTRUCTOR_COURSE_STATS_PAGE = "/page/courseStatsPage";
         public static final String INSTRUCTOR_FEEDBACK_STATS_PAGE = "/page/feedbackSessionStatsPage";

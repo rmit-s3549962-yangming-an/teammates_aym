@@ -41,17 +41,59 @@
     </div>
     <div class="col-xs-2">
       <c:if test="${frc.editDeleteEnabled}">
-        <form class="responseCommentDeleteForm pull-right">
-          <c:set var="deleteUri" value="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %>" />
-          <a href="${frc.editDeleteEnabled ? deleteUri : 'javascript:;'}"
-              type="button"
-              id="commentdelete-${divId}"
+      <form class="rresponseCommentDeleteForm pull-right">
+        <c:set var="deleteUri" value="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %>" />
+        <a href="${frc.editDeleteEnabled ? deleteUri : 'javascript:;'}"
+           type="button"
+           id="ccommentdelete-${divId}"
+           class="btn btn-default btn-xs icon-button<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
+           data-toggle="tooltip"
+           data-placement="top"
+           title="<%= Const.Tooltips.COMMENT_DELETE %>">
+          <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+        </a>
+        <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${firstIndex}">
+        <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="${frc.feedbackResponseId}">
+        <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}">
+        <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${frc.courseId}">
+        <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${frc.feedbackSessionName}">
+        <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
+        <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
+      </form>
+      <a type="button" id="commentedit-${divId}"
+          <c:choose>
+            <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex}">
+              class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
+              data-recipientindex="${firstIndex}" data-giverindex="${secondIndex}"
+              data-qnindex="${thirdIndex}" data-frcindex="${frcIndex}"
+              <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
+              <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>
+            </c:when>
+            <c:otherwise>
+              class="btn btn-default btn-xs icon-button pull-right<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
+            </c:otherwise>
+          </c:choose>
+         data-toggle="tooltip"
+         data-placement="top"
+         title="<%= Const.Tooltips.COMMENT_EDIT %>">
+        <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+      </a>
+
+      <c:set var="praiseToAddUri" value="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_PRAISE_ADD %>" />
+      <c:set var="praiseToDeleteUri" value="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_PRAISE_DELETE %>" />
+      <c:if test="${not frc.praised}">
+      <form class="responseCommentPraiseForm pull-right" action="${frc.editDeleteEnabled ? praiseToAddUri : 'javascript:;'}" >
+        </c:if>
+        <c:if test="${ frc.praised}">
+        <form class="responseCommentPraiseForm pull-right" action="${frc.editDeleteEnabled ? praiseToDeleteUri : 'javascript:;'}" >
+          </c:if>
+          <button
+              type="submit"
+              id="commentpraise-${divId}"
               class="btn btn-default btn-xs icon-button<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
-              data-toggle="tooltip"
-              data-placement="top"
-              title="<%= Const.Tooltips.COMMENT_DELETE %>">
-            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-          </a>
+              title="<%= Const.Tooltips.COMMENT_LIKE %>">
+            <span class="glyphicon glyphicon-heart <c:if test="${ frc.praised}"> glyphicon-primary </c:if> "></span>
+          </button>
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${firstIndex}">
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="${frc.feedbackResponseId}">
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}">
@@ -60,25 +102,7 @@
           <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
           <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
         </form>
-        <a type="button" id="commentedit-${divId}"
-            <c:choose>
-              <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex}">
-                class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
-                data-recipientindex="${firstIndex}" data-giverindex="${secondIndex}"
-                data-qnindex="${thirdIndex}" data-frcindex="${frcIndex}"
-                <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
-                <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>
-              </c:when>
-              <c:otherwise>
-                class="btn btn-default btn-xs icon-button pull-right<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
-              </c:otherwise>
-            </c:choose>
-            data-toggle="tooltip"
-            data-placement="top"
-            title="<%= Const.Tooltips.COMMENT_EDIT %>">
-          <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-        </a>
-      </c:if>
+        </c:if>
     </div>
   </div>
   <%-- Do not add whitespace between the opening and closing tags --%>
