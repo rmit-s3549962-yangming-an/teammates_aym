@@ -41,11 +41,11 @@
     </div>
     <div class="col-xs-2">
       <c:if test="${frc.editDeleteEnabled}">
-      <form class="rresponseCommentDeleteForm pull-right">
+      <form class="responseCommentDeleteForm pull-right">
         <c:set var="deleteUri" value="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %>" />
         <a href="${frc.editDeleteEnabled ? deleteUri : 'javascript:;'}"
            type="button"
-           id="ccommentdelete-${divId}"
+           id="commentdelete-${divId}"
            class="btn btn-default btn-xs icon-button<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
            data-toggle="tooltip"
            data-placement="top"
@@ -81,19 +81,16 @@
 
       <c:set var="praiseToAddUri" value="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_PRAISE_ADD %>" />
       <c:set var="praiseToDeleteUri" value="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_PRAISE_DELETE %>" />
-      <c:if test="${not frc.praised}">
-      <form class="responseCommentPraiseForm pull-right" action="${frc.editDeleteEnabled ? praiseToAddUri : 'javascript:;'}" >
-        </c:if>
-        <c:if test="${ frc.praised}">
-        <form class="responseCommentPraiseForm pull-right" action="${frc.editDeleteEnabled ? praiseToDeleteUri : 'javascript:;'}" >
-          </c:if>
-          <button
-              type="submit"
+         <form class="responseCommentPraiseForm pull-right">
+
+          <a  href="${frc.praised==true ? praiseToDeleteUri : praiseToAddUri}"
+              type="button"
               id="commentpraise-${divId}"
               class="btn btn-default btn-xs icon-button<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
               title="<%= Const.Tooltips.COMMENT_LIKE %>">
             <span class="glyphicon glyphicon-heart <c:if test="${ frc.praised}"> glyphicon-primary </c:if> "></span>
-          </button>
+          </a>
+
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${firstIndex}">
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="${frc.feedbackResponseId}">
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}">

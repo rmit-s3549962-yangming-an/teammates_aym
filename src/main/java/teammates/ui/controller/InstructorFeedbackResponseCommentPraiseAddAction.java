@@ -59,7 +59,17 @@ public class InstructorFeedbackResponseCommentPraiseAddAction extends Instructor
         InstructorFeedbackResponseCommentAjaxPageData data =
                 new InstructorFeedbackResponseCommentAjaxPageData(account, sessionToken);
 
+        String commentGiverName = logic.getInstructorForEmail(courseId, frc.giverEmail).name;
+        String commentEditorName = instructor.name;
 
-        return createShowPageResult(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE, data);
+        // createdAt and lastEditedAt fields in updatedComment as well as sessionTimeZone
+        // are required to generate timestamps in editedCommentDetails
+        data.comment = updatedComment;
+        data.sessionTimeZone = session.getTimeZone();
+
+        data.editedCommentDetails = data.createEditedCommentDetails(commentGiverName, commentEditorName);
+        data.isLiked=true;
+
+        return createAjaxResult(data);
     }
 }
