@@ -98,12 +98,12 @@ public final class Const {
     public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "User-submitted Error Report";
 
     static {
-        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.parseInstant("1970-12-31 12:00 AM +0000");
-        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.parseInstant("1970-06-22 12:00 AM +0000");
-        TIME_REPRESENTS_NEVER = TimeHelper.parseInstant("1970-11-27 12:00 AM +0000");
-        TIME_REPRESENTS_LATER = TimeHelper.parseInstant("1970-01-01 12:00 AM +0000");
-        TIME_REPRESENTS_NOW = TimeHelper.parseInstant("1970-02-14 12:00 AM +0000");
-        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.parseInstant("2011-01-01 12:00 AM +0000");
+        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.parseInstant("1970-12-31 12:00 上午 +0000");
+        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.parseInstant("1970-06-22 12:00 上午 +0000");
+        TIME_REPRESENTS_NEVER = TimeHelper.parseInstant("1970-11-27 12:00 上午 +0000");
+        TIME_REPRESENTS_LATER = TimeHelper.parseInstant("1970-01-01 12:00 上午 +0000");
+        TIME_REPRESENTS_NOW = TimeHelper.parseInstant("1970-02-14 12:00 上午 +0000");
+        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.parseInstant("2011-01-01 12:00 上午 +0000");
     }
 
     /*
@@ -897,7 +897,10 @@ public final class Const {
         public static final String PROFILE_PICTURE_ROTATE = "picturerotate";
 
         public static final String SEARCH_STUDENTS = "searchstudents";
+        public static final String SEARCH_TEAMS = "searchteams";
         public static final String SEARCH_FEEDBACK_SESSION_DATA = "searchfeedbacksessiondata";
+
+
 
         public static final String ERROR_FEEDBACK_EMAIL_RECEIVER_ADDRESS = "errorfeedbackemailreceiveraddress";
         public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "errorfeedbackemailsubject";
@@ -909,7 +912,7 @@ public final class Const {
         public static final String FEEDBACK_RESPONSE_COMMENT = "feedbackresponsecomment";
         public static final String STUDENT = "student";
         public static final String INSTRUCTOR = "instructor";
-    }
+     }
 
     public static class SearchDocumentField {
         public static final String STUDENT_ATTRIBUTE = "studentAttribute";
@@ -932,6 +935,7 @@ public final class Const {
         public static final String IS_VISIBLE_TO_INSTRUCTOR = "isVisibleToInstructor";
         public static final String IS_VISIBLE_TO_RECEIVER = "isVisibleToReceiver";
         public static final String IS_VISIBLE_TO_GIVER = "isVisibleToGiver";
+        public static final String TEAM = "team";
     }
 
     public static class ActionURIs {
