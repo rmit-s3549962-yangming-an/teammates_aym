@@ -2,12 +2,7 @@ package teammates.common.util;
 
 import java.time.Instant;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 
@@ -123,8 +118,11 @@ public final class Const {
          * Must be within the range of int */
         public static final int MAX_PROFILE_PIC_SIZE = 5000000;
 
+        /* Max.PDF size for feedback uploading handlers */
+        public static final int MAX_PDF_DOC_SIZE = 30000000;
+
         /** This is the limit given to Blobstore API, beyond which an ugly error page is shown. */
-        public static final long MAX_FILE_LIMIT_FOR_BLOBSTOREAPI = 11000000;
+        public static final long MAX_FILE_LIMIT_FOR_BLOBSTOREAPI = 31600000;
 
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
@@ -154,8 +152,6 @@ public final class Const {
                         ActionURIs.ADMIN_EMAIL_TRASH_DELETE,
                         ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD,
                         ActionURIs.ADMIN_STUDENT_GOOGLE_ID_RESET,
-                        ActionURIs.CREATE_IMAGE_UPLOAD_URL,
-                        ActionURIs.IMAGE_UPLOAD,
                         ActionURIs.INSTRUCTOR_COURSE_ADD,
                         ActionURIs.INSTRUCTOR_COURSE_ARCHIVE,
                         ActionURIs.INSTRUCTOR_COURSE_DELETE,
@@ -642,6 +638,7 @@ public final class Const {
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
         public static final String INSTRUCTOR_NAME = "instructorname";
         public static final String STUDENTS_ENROLLMENT_INFO = "enrollstudents";
+        public static final String STUDENTS_ENROLLMENT_RESTORE = "restorejson";
 
         public static final String INSTRUCTOR_IS_DISPLAYED_TO_STUDENT = "instructorisdisplayed";
         public static final String INSTRUCTOR_DISPLAY_NAME = "instructordisplayname";
@@ -668,6 +665,7 @@ public final class Const {
         public static final String COURSE_ARCHIVE_STATUS = "archive";
 
         public static final String IMAGE_TO_UPLOAD = "imagetoupload";
+        public static final String DOC_TO_UPLOAD = "doctoupload";
 
         public static final String ADMIN_SEARCH_KEY = "searchkey";
         public static final String ADMIN_SEARCH_BUTTON_HIT = "searchbuttonhit";
@@ -799,6 +797,7 @@ public final class Const {
         public static final String FEEDBACK_RESPONSE_ID = "responseid";
         public static final String FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
         public static final String FEEDBACK_RESPONSE_TEXT = "responsetext";
+        public static final String FEEDBACK_RESPONSE_FILE = "responsefile";
 
         public static final String FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
         public static final String FEEDBACK_RESPONSE_COMMENT_TEXT = "responsecommenttext";
@@ -912,7 +911,7 @@ public final class Const {
         public static final String FEEDBACK_RESPONSE_COMMENT = "feedbackresponsecomment";
         public static final String STUDENT = "student";
         public static final String INSTRUCTOR = "instructor";
-     }
+    }
 
     public static class SearchDocumentField {
         public static final String STUDENT_ATTRIBUTE = "studentAttribute";
@@ -959,6 +958,10 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_STUDENT_DELETE = "/page/instructorCourseStudentDelete";
         public static final String INSTRUCTOR_COURSE_STUDENT_DELETE_ALL = "/page/instructorCourseStudentDeleteAll";
         public static final String INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD = "/page/instructorCourseStudentListDownload";
+        public static final String INSTRUCTOR_COURSE_STUDENT_LIST_PDF_DOWNLOAD =
+                "/page/instructorCourseStudentPdfListDownload";
+        public static final String INSTRUCTOR_COURSE_STUDENT_BACKUP = "/page/instructorCourseStudentBackup";
+        public static final String INSTRUCTOR_COURSE_STUDENT_RESTORE = "/page/instructorCourseStudentRestore";
         public static final String INSTRUCTOR_COURSE_ENROLL_PAGE = "/page/instructorCourseEnrollPage";
         public static final String INSTRUCTOR_COURSE_ENROLL_SAVE = "/page/instructorCourseEnrollSave";
         public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
@@ -1013,8 +1016,10 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT = "/page/instructorFeedbackResponseCommentEdit";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE =
                 "/page/instructorFeedbackResponseCommentDelete";
-        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_PRAISE_ADD = "/page/instructorFeedbackResponseCommentPraiseAdd";
-        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_PRAISE_DELETE = "/page/instructorFeedbackResponseCommentPraiseDelete";
+        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_PRAISE_ADD =
+                "/page/instructorFeedbackResponseCommentPraiseAdd";
+        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_PRAISE_DELETE =
+                "/page/instructorFeedbackResponseCommentPraiseDelete";
 
         public static final String INSTRUCTOR_COURSE_STATS_PAGE = "/page/courseStatsPage";
         public static final String INSTRUCTOR_FEEDBACK_STATS_PAGE = "/page/feedbackSessionStatsPage";
@@ -1023,7 +1028,9 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";
 
         public static final String CREATE_IMAGE_UPLOAD_URL = "/page/createImageUploadUrl";
+        public static final String CREATE_DOC_UPLOAD_URL = "/page/createDocUploadUrl";
         public static final String IMAGE_UPLOAD = "/page/imageUpload";
+        public static final String DOC_UPLOAD = "/page/docUpload";
 
         public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
         public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
@@ -1069,6 +1076,7 @@ public final class Const {
                 "/admin/adminEmailCreateGroupReceiverListUploadUrl";
 
         public static final String PUBLIC_IMAGE_SERVE = "/public/publicImageServe";
+        public static final String PUBLIC_DOC_SERVE = "/public/getDoc";
         public static final String PUBLIC_EMAIL_FILE_SERVE = "/public/publicEmailImageServe";
         public static final String ADMIN_STUDENT_GOOGLE_ID_RESET = "/admin/adminStudentGoogleIdReset";
 
@@ -1222,6 +1230,7 @@ public final class Const {
         public static final String ENABLE_JS = "/enableJs.jsp";
         public static final String INVALID_ORIGIN = "/invalidOrigin.jsp";
         public static final String UNAUTHORIZED = "/unauthorized.jsp";
+        public static final String NON_RMIT = "/nonrmit.jsp";
         public static final String ERROR_PAGE = "/errorPage.jsp";
         public static final String DEADLINE_EXCEEDED_ERROR_PAGE = "/deadlineExceededErrorPage.jsp";
         public static final String ENTITY_NOT_FOUND_PAGE = "/entityNotFoundPage.jsp";
@@ -1238,8 +1247,11 @@ public final class Const {
     public static class StatusMessages {
 
         public static final String IMAGE_TOO_LARGE = "The uploaded image was too large. ";
+        public static final String DOC_TOO_LARGE = "The document was too large. ";
         public static final String FILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. ";
+        public static final String FILE_NOT_A_DOC = "The document that you have uploaded is not a PDF file. ";
         public static final String NO_IMAGE_GIVEN = "Please specify a image to be uploaded.";
+        public static final String NO_DOC_GIVEN = "Please specify a PDF document to upload.";
         public static final String EMAIL_NOT_FOUND = "The requested email was not found";
         public static final String DUPLICATE_EMAIL_INFO = "Same email address as the student in line";
         public static final String EMAIL_DRAFT_SAVED = "Email draft has been saved";
@@ -1368,6 +1380,7 @@ public final class Const {
         public static final String STUDENTS_DELETED = "All the students have been removed from the course";
         public static final String STUDENT_PROFILE_EDITED = "Your profile has been edited successfully";
         public static final String STUDENT_PROFILE_PICTURE_SAVED = "Your profile picture has been saved successfully";
+        public static final String STUDENT_FEEDBACK_UPLOADED = "Your document has been uploaded.";
         public static final String STUDENT_PROFILE_PIC_TOO_LARGE = "The uploaded profile picture was too large. "
                 + "Please try again with a smaller picture.";
         public static final String STUDENT_PROFILE_PIC_SERVICE_DOWN = "We were unable to upload your picture at this time. "

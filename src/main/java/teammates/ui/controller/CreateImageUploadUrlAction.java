@@ -5,7 +5,7 @@ import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.Url;
-import teammates.ui.pagedata.CreateImageUploadUrlAjaxPageData;
+import teammates.ui.pagedata.CreateDocUploadUrlAjaxPageData;
 
 /**
  * Action: creates a URL for uploading an image.
@@ -17,8 +17,8 @@ public class CreateImageUploadUrlAction extends Action {
         return createAjaxResult(getCreateImageUploadUrlPageData());
     }
 
-    protected final CreateImageUploadUrlAjaxPageData getCreateImageUploadUrlPageData() {
-        CreateImageUploadUrlAjaxPageData data = new CreateImageUploadUrlAjaxPageData(account, sessionToken);
+    protected final CreateDocUploadUrlAjaxPageData getCreateImageUploadUrlPageData() {
+        CreateDocUploadUrlAjaxPageData data = new CreateDocUploadUrlAjaxPageData(account, sessionToken);
 
         try {
             data.nextUploadUrl = getUploadUrl();

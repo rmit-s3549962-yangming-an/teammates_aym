@@ -3,28 +3,18 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+
 import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidOriginException;
-import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Assumption;
-import teammates.common.util.Config;
-import teammates.common.util.Const;
-import teammates.common.util.CryptoHelper;
-import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.LogMessageGenerator;
-import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StatusMessage;
-import teammates.common.util.StatusMessageColor;
-import teammates.common.util.StringHelper;
-import teammates.common.util.Url;
+import teammates.common.exception.*;
+import teammates.common.util.*;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
@@ -239,6 +229,21 @@ public abstract class Action {
         loggedInUser = authenticateAndGetActualUser(currentUser);
         if (isValidUser()) {
             account = authenticateAndGetNominalUser(currentUser);
+        }
+        blockNonRmitDomain(currentUser);
+    }
+
+    private void blockNonRmitDomain(UserType userType) {
+
+        if (userType == null) {
+            return;
+        }
+
+        Pattern pattern = Pattern.compile("^[^@\\s]+@(student\\.)?rmit\\.edu\\.au$");
+
+        if (!pattern.matcher(userType.id).matches() && !userType.isAdmin) {
+            throw new NonRmitLoginException(
+                    String.format("Looks like the user \"%s\" is not a RMIT staff/student", userType.id));
         }
     }
 
@@ -637,14 +642,34 @@ public abstract class Action {
     }
 
     /**
-     * Generates a {@link FileDownloadResult} with the information in this object.
+     * Generates a {@link CsvDownloadResult} with the information in this object.
      */
-    public FileDownloadResult createFileDownloadResult(String fileName, String fileContent) {
-        return new FileDownloadResult("filedownload",
+    public CsvDownloadResult createFileDownloadResult(String fileName, String fileContent) {
+        return new CsvDownloadResult("filedownload",
                                       account,
                                       statusToUser,
                                       fileName,
                                       fileContent);
+    }
+
+    /**
+     * Generates a {@link JsonDownloadResult} with the serialized object string.
+     * @param fileName JSON file name
+     * @param fileContent Serialized object
+     * @return JSON download result object
+     */
+    public JsonDownloadResult createJsonBackupResult(String fileName, String fileContent) {
+        return new JsonDownloadResult("filedownload", account, statusToUser, fileName, fileContent);
+    }
+
+    /**
+     * Generates a {@link PdfDownloadResult} with the information in this object.
+     * @param fileName Suggested file name (used in content disposition header)
+     * @param document PDF document object
+     * @return PDF download result
+     */
+    public PdfDownloadResult createPdfDownloadResult(String fileName, PDDocument document) {
+        return new PdfDownloadResult("docdownload", account, statusToUser, fileName, document);
     }
 
     protected ActionResult createPleaseJoinCourseResponse(String courseId) {
@@ -661,6 +686,11 @@ public abstract class Action {
                                account,
                                statusToUser);
     }
+
+    protected ActionResult createDocResult(String blobKey) {
+        return new FeedbackPdfFileResult("documents", blobKey, account, statusToUser);
+    }
+
 
     /**
      * Status messages to be shown to the user and the admin will be set based

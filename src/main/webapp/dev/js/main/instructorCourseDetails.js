@@ -1,26 +1,18 @@
-import {
-    showModalConfirmation,
-} from '../common/bootboxWrapper';
+import {showModalConfirmation,} from '../common/bootboxWrapper';
+
+import {BootstrapContextualColors,} from '../common/const';
 
 import {
-    BootstrapContextualColors,
-} from '../common/const';
-
-import {
-    attachEventToDeleteStudentLink,
     attachEventToDeleteAllStudentLink,
+    attachEventToDeleteStudentLink,
     attachEventToSendInviteLink,
     prepareInstructorPages,
     selectElementContents,
 } from '../common/instructor';
 
-import {
-    toggleSort,
-} from '../common/sortBy';
+import {toggleSort,} from '../common/sortBy';
 
-import {
-    setStatusMessage,
-} from '../common/statusMessage';
+import {setStatusMessage,} from '../common/statusMessage';
 
 function submitFormAjax() {
     const formObject = $('#csvToHtmlForm');
@@ -58,6 +50,36 @@ function submitFormAjax() {
     });
 }
 
+function attachEventToCourseRestoreButton() {
+    $('#form_restore_course_dummy').submit((event) => {
+        // Prevent form auto submission
+        event.preventDefault();
+
+        // Create a dummy file input and ask the user for the JSON file
+        const input = document.createElement('input');
+        input.type = 'file';
+
+        // Prepare the reader
+        const reader = new FileReader();
+        reader.onload = function () {
+            const text = reader.result;
+            console.log('Got JSON text: ');
+            console.log(text);
+            $('#course_json_text').val(text); // Set to the hidden input field
+            $('#form_restore_course').submit();
+        };
+
+        // Read the JSON file
+        input.onchange = function () {
+            if (input.files && input.files[0]) {
+                reader.readAsText(input.files[0]);
+            }
+        };
+
+        input.click();
+    });
+}
+
 function attachEventToRemindStudentsButton() {
     $('#button_remind').on('click', (event) => {
         const $clickedButton = $(event.currentTarget);
@@ -86,6 +108,7 @@ $(document).ready(() => {
     attachEventToSendInviteLink();
     attachEventToDeleteStudentLink();
     attachEventToDeleteAllStudentLink();
+    attachEventToCourseRestoreButton();
 
     $('#btn-select-element-contents').on('click', () => {
         selectElementContents($('#detailsTable').get(0));
