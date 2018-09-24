@@ -6,6 +6,7 @@ import {
 import {
     highlightSearchResult,
     toggleAdditionalQuestionInfo,
+    dynamicSearch
 } from '../common/ui';
 
 window.toggleAdditionalQuestionInfo = toggleAdditionalQuestionInfo;
@@ -23,4 +24,5 @@ $(document).ready(() => {
 
     // highlight search string
     highlightSearchResult('#searchBox', '.panel-body');
+    dynamicSearch('#searchBox','#word');
 });

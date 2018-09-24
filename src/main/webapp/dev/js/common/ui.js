@@ -106,6 +106,47 @@ function highlightSearchResult(searchKeyId, sectionToHighlight) {
     $(sectionToHighlight).highlight(searchKeyList);
 }
 
+
+function dynamicSearch(searchKeyId, dynamicSearchPanel)
+{
+
+//keyUp , ajaxGetData
+    $(searchKeyId).keyup(function(){
+        var keywords = $(this).val();
+        if (keywords=='') { $(dynamicSearchPanel).hide(); return };
+        $.ajax({
+            url: 'http://suggestion.baidu.com/su?wd=' + keywords,
+            dataType: 'jsonp',
+            jsonp: 'cb', //回调函数的参数名(键值)key
+            // jsonpCallback: 'fun', //回调函数名(值) value
+            beforeSend:function(){
+                $(dynamicSearchPanel).append('<div>Loading。。。</div>');
+            },
+            success:function(data){
+                $(dynamicSearchPanel).empty().show();
+                if (data.s=='')
+                {
+                    $(dynamicSearchPanel).append('<div class="error">Not find  "' + keywords + '"</div>');
+                }
+                $.each(data.s, function(){
+                    $(dynamicSearchPanel).append('<div class="form-control click_work " style="cursor: pointer">'+ this +'</div>');
+                })
+            },
+            error:function(){
+                $(dynamicSearchPanel).empty().show();
+                $(dynamicSearchPanel).append('<div class="form-control click_work ">Fail "' + keywords + '"</div>');
+            }
+        })
+    })
+//set value to inputText
+    $(document).on('click','.click_work',function(){
+        var word = $(this).text();
+        $(searchKeyId).val(word);
+        $(dynamicSearchPanel).hide();
+     })
+
+
+}
 // Toggle the visibility of additional question information for the specified question.
 function toggleAdditionalQuestionInfo(identifier) {
     const $questionButton = $(`#questionAdditionalInfoButton-${identifier}`);
@@ -159,4 +200,5 @@ export {
     toggleAdditionalQuestionInfo,
     toggleChevron,
     toggleSingleCollapse,
+    dynamicSearch
 };

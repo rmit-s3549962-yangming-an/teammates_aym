@@ -13,7 +13,9 @@
               value="${data.searchKey}"
               title="Search for comment"
               placeholder="Your search keyword"
-              class="form-control" id="searchBox">
+              class="form-control" id="searchBox"
+              autocomplete="off"
+          >
 
           <span class="input-group-btn">
             <button class="btn btn-primary" type="submit"
@@ -24,6 +26,9 @@
         </div>
 
         <input type="hidden" name="user" value="${data.account.googleId}">
+
+
+        <div id="word" style="display: none;"></div>
       </div>
 
       <div class="form-group">
@@ -60,6 +65,13 @@
           </li>
         </ul>
       </div>
+
+
+
     </div>
   </form>
+
+
+
+
 </div>
