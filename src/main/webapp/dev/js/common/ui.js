@@ -114,21 +114,21 @@ function dynamicSearch(searchKeyId, dynamicSearchPanel)
     $(searchKeyId).keyup(function(){
         var keywords = $(this).val();
         if (keywords=='') { $(dynamicSearchPanel).hide(); return };
+
         $.ajax({
-            url: 'http://suggestion.baidu.com/su?wd=' + keywords,
-            dataType: 'jsonp',
-            jsonp: 'cb', //回调函数的参数名(键值)key
-            // jsonpCallback: 'fun', //回调函数名(值) value
+            url: '/page/instructorSearchListAjaxPage?searchkey=1&user=qingdao1968%40163.com&searchstudents=true',
+            dataType:"json",
             beforeSend:function(){
                 $(dynamicSearchPanel).append('<div>Loading。。。</div>');
             },
             success:function(data){
+                console.log(data);
                 $(dynamicSearchPanel).empty().show();
                 if (data.s=='')
                 {
                     $(dynamicSearchPanel).append('<div class="error">Not find  "' + keywords + '"</div>');
                 }
-                $.each(data.s, function(){
+                $.each(data.studentIndex, function(){
                     $(dynamicSearchPanel).append('<div class="form-control click_work " style="cursor: pointer">'+ this +'</div>');
                 })
             },
@@ -137,6 +137,10 @@ function dynamicSearch(searchKeyId, dynamicSearchPanel)
                 $(dynamicSearchPanel).append('<div class="form-control click_work ">Fail "' + keywords + '"</div>');
             }
         })
+
+
+
+
     })
 //set value to inputText
     $(document).on('click','.click_work',function(){

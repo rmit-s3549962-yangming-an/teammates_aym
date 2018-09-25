@@ -230,7 +230,7 @@ public abstract class Action {
         if (isValidUser()) {
             account = authenticateAndGetNominalUser(currentUser);
         }
-        blockNonRmitDomain(currentUser);
+//        blockNonRmitDomain(currentUser);
     }
 
     private void blockNonRmitDomain(UserType userType) {
