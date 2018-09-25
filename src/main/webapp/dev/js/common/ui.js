@@ -110,13 +110,21 @@ function highlightSearchResult(searchKeyId, sectionToHighlight) {
 function dynamicSearch(searchKeyId, dynamicSearchPanel)
 {
 
+
+
 //keyUp , ajaxGetData
     $(searchKeyId).keyup(function(){
+
+        const formData = $(this).serialize();
+        const user = $(this).parent().parent().children('input').val();
+
+
         var keywords = $(this).val();
         if (keywords=='') { $(dynamicSearchPanel).hide(); return };
+        console.log("url" + '/page/instructorSearchListAjaxPage?'+formData + "&user=" + user +"&searchstudents=true" )
 
         $.ajax({
-            url: '/page/instructorSearchListAjaxPage?searchkey=1&user=qingdao1968%40163.com&searchstudents=true',
+            url: '/page/instructorSearchListAjaxPage?'+formData + "&user=" + user +"&searchstudents=true",
             dataType:"json",
             beforeSend:function(){
                 $(dynamicSearchPanel).append('<div>Loading。。。</div>');

@@ -7,7 +7,7 @@
   <form method="get" action="${data.instructorSearchLink}" name="search_form">
     <div class="well well-plain">
 
-      <div class="form-group">
+      <div class="form-group" id="dynamicSearchInput">
         <div class="input-group">
           <input type="text" name="searchkey"
               value="${data.searchKey}"
