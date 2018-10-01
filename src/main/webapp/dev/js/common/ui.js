@@ -113,18 +113,15 @@ function dynamicSearch(searchKeyId, dynamicSearchPanel)
 
 
 //keyUp , ajaxGetData
-    $(searchKeyId).keyup(function(){
+    $(searchKeyId).keyup(function(event){
 
-        const formData = $(this).serialize();
-        const user = $(this).parent().parent().children('input').val();
-
+        var formData = $(this).parents('form.dynamicSearch').serialize();
 
         var keywords = $(this).val();
         if (keywords=='') { $(dynamicSearchPanel).hide(); return };
-        console.log("url" + '/page/instructorSearchListAjaxPage?'+formData + "&user=" + user +"&searchstudents=true" )
 
         $.ajax({
-            url: '/page/instructorSearchListAjaxPage?'+formData + "&user=" + user +"&searchstudents=true",
+            url: '/page/instructorSearchListAjaxPage?'+formData,
             dataType:"json",
             beforeSend:function(){
                 $(dynamicSearchPanel).append('<div>Loading。。。</div>');
@@ -145,10 +142,6 @@ function dynamicSearch(searchKeyId, dynamicSearchPanel)
                 $(dynamicSearchPanel).append('<div class="form-control click_work ">Fail "' + keywords + '"</div>');
             }
         })
-
-
-
-
     })
 //set value to inputText
     $(document).on('click','.click_work',function(){

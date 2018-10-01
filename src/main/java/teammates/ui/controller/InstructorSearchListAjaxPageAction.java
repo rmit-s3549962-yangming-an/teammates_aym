@@ -31,27 +31,21 @@ public class InstructorSearchListAjaxPageAction extends  Action {
             numberOfSearchOptions++;
         }
 
-
-
         boolean isSearchForTeams = getRequestParamAsBoolean(Const.ParamsNames.SEARCH_TEAMS);
         if (isSearchForTeams) {
             numberOfSearchOptions++;
         }
-
 
         boolean isSearchFeedbackSessionData = getRequestParamAsBoolean(Const.ParamsNames.SEARCH_FEEDBACK_SESSION_DATA);
         if (isSearchFeedbackSessionData) {
             numberOfSearchOptions++;
         }
 
-
-
         List<String> studentSearchResults = new ArrayList<String>();
 
         List<String> teamsSearchResults = new ArrayList<String>();
 
         List<String> frCommentSearchResults =  new ArrayList<String>();
-
 
         int totalResultsSize = 0;
 
@@ -73,12 +67,7 @@ public class InstructorSearchListAjaxPageAction extends  Action {
                 teamsSearchResults = getTeamList(studentSearchResultBundle);
             }
 
-
-
-
-
         }
-
 
         InstructorSearchListAjaxPageData data = new InstructorSearchListAjaxPageData(account, sessionToken,
                 searchKey,studentSearchResults,teamsSearchResults,null);
