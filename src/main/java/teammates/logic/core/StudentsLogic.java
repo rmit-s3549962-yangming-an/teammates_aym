@@ -20,6 +20,7 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
+import teammates.storage.entity.CourseStudent;
 
 /**
  * Handles operations related to students.
@@ -91,8 +92,8 @@ public final class StudentsLogic {
         return studentsDb.getStudentsForCourse(courseId);
     }
 
-    public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
-        return studentsDb.getStudentsForTeam(teamName, courseId);
+    public List<StudentAttributes> getStudentsForTeam(String teamName,String courseId) {
+        return studentsDb.getStudentsForTeam(teamName,courseId);
     }
 
     public List<StudentAttributes> getStudentsForSection(String sectionName, String courseId) {
@@ -116,6 +117,9 @@ public final class StudentsLogic {
         return studentsDb.search(queryString, instructors);
     }
 
+    public List<StudentAttributes>  searchTeamsAjax(String queryString ) {
+        return studentsDb.getTeams(queryString );
+    }
 
     /**
      * This method should be used by admin only since the searching does not restrict the

@@ -724,10 +724,23 @@ public class Logic {
     public StudentSearchResultBundle searchTeams(String queryString, List<InstructorAttributes> instructors) {
         Assumption.assertNotNull(queryString);
         Assumption.assertNotNull(instructors);
-        String teamQueryString = "Team:" + queryString;
+        String teamQueryString = "Team =" + queryString;
         return studentsLogic.searchTeams(teamQueryString, instructors);
     }
 
+
+    /**
+     * Search for teams. Preconditions: all parameters are non-null.
+     * @param instructors   a list of InstructorAttributes associated to a googleId,
+     *                      used for filtering of search result
+     * @return Null if no match found
+     */
+    public List<StudentAttributes> searchTeamsAjax(String queryString ) {
+        Assumption.assertNotNull(queryString);
+
+//        String teamQueryString = "Team:" + queryString;
+        return studentsLogic.searchTeamsAjax(queryString);
+    }
 
     /**
      * This method should be used by admin only since the searching does not restrict the

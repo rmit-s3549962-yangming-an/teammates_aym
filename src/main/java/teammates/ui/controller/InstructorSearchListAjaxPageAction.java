@@ -5,6 +5,7 @@ import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -45,7 +46,7 @@ public class InstructorSearchListAjaxPageAction extends  Action {
 
         List<String> teamsSearchResults = new ArrayList<String>();
 
-        List<String> frCommentSearchResults =  new ArrayList<String>();
+        List<String> frCommentSearchResults = new ArrayList<String>();
 
         int totalResultsSize = 0;
 
@@ -54,52 +55,61 @@ public class InstructorSearchListAjaxPageAction extends  Action {
         } else {
             //Start searching
             List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId);
-            if (isSearchFeedbackSessionData) {
-                FeedbackResponseCommentSearchResultBundle feedbackResponseCommentSearchResultBundle = logic.searchFeedbackResponseComments(searchKey, instructors);
-            }
+
             if (isSearchForStudents) {
                 StudentSearchResultBundle studentSearchResultBundle = logic.searchStudents(searchKey, instructors);
                 studentSearchResults = getStudentList(studentSearchResultBundle);
             }
 
             if (isSearchForTeams) {
-                StudentSearchResultBundle studentSearchResultBundle = logic.searchTeams(searchKey, instructors);
-                teamsSearchResults = getTeamList(studentSearchResultBundle);
+                List<StudentAttributes> studentAttributesList = logic.searchTeamsAjax(searchKey);
+                teamsSearchResults = getTeamList(studentAttributesList);
             }
 
+            if (isSearchFeedbackSessionData) {
+                FeedbackResponseCommentSearchResultBundle feedbackResponseCommentSearchResultBundle = logic.searchFeedbackResponseComments(searchKey, instructors);
+                frCommentSearchResults = getFeedbackList(feedbackResponseCommentSearchResultBundle);
+            }
         }
 
         InstructorSearchListAjaxPageData data = new InstructorSearchListAjaxPageData(account, sessionToken,
-                searchKey,studentSearchResults,teamsSearchResults,null);
+                searchKey, studentSearchResults, teamsSearchResults, frCommentSearchResults);
 
         return createAjaxResult(data);
     }
 
 
-
-
-    public List<String> getStudentList(StudentSearchResultBundle studentSearchResultBundle)
-    {
+    public List<String> getStudentList(StudentSearchResultBundle studentSearchResultBundle) {
         List<String> studentsList = new ArrayList<>();
 
-        for(int i=0; i < studentSearchResultBundle.studentList.size(); i++)
-        {
+        for (int i = 0; i < studentSearchResultBundle.studentList.size(); i++) {
             StudentAttributes sa = studentSearchResultBundle.studentList.get(i);
 
-             studentsList.add(sa.googleId);
+            studentsList.add(sa.name);
         }
         return studentsList;
     }
-    public List<String> getTeamList(StudentSearchResultBundle studentSearchResultBundle)
-    {
-        List<String> teamsList = new ArrayList<>();
 
-        for(int i=0; i < studentSearchResultBundle.studentList.size(); i++)
-        {
-            StudentAttributes sa = studentSearchResultBundle.studentList.get(i);
+    public List<String> getTeamList(List<StudentAttributes> studentAttributesList) {
+        Set<String> teamsSet = new HashSet<>();
 
-             teamsList.add(sa.team);
+        for (int i = 0; i < studentAttributesList.size(); i++) {
+            StudentAttributes sa = studentAttributesList.get(i);
+
+            teamsSet.add(sa.team);
         }
-        return teamsList;
+
+        return new ArrayList<>(teamsSet);
+    }
+
+    public List<String> getFeedbackList(FeedbackResponseCommentSearchResultBundle feedbackResponseCommentSearchResultBundle) {
+        List<String> sumList = new ArrayList<>();
+
+        for (FeedbackSessionAttributes feedbackSessionAttributes : feedbackResponseCommentSearchResultBundle.sessions.values()) {
+
+                sumList.add(feedbackSessionAttributes.getFeedbackSessionName());
+        }
+
+        return sumList;
     }
 }

@@ -192,12 +192,24 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         return makeAttributes(getCourseStudentEntitiesForCourse(courseId));
     }
 
+
     /**
      * Preconditions: <br>
      *  * All parameters are non-null.
      * @return an empty list if no students in the course.
      */
-    public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
+    public List<StudentAttributes> getTeams(String teamName ) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, teamName);
+        return makeAttributes(getStudentEntitiesForTeam(teamName));
+    }
+
+
+    /**
+     * Preconditions: <br>
+     *  * All parameters are non-null.
+     * @return an empty list if no students in the course.
+     */
+    public List<StudentAttributes> getStudentsForTeam(String teamName,String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, teamName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
@@ -533,6 +545,14 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     private List<CourseStudent> getCourseStudentEntitiesForGoogleId(String googleId) {
         return getCourseStudentsForGoogleIdQuery(googleId).list();
     }
+
+
+    private List<CourseStudent> getStudentEntitiesForTeam(String teamName ) {
+        return load()
+                .filter("teamName =", teamName)
+                 .list();
+    }
+
 
     private List<CourseStudent> getCourseStudentEntitiesForTeam(String teamName, String courseId) {
         return load()

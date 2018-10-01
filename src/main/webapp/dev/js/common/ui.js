@@ -109,10 +109,7 @@ function highlightSearchResult(searchKeyId, sectionToHighlight) {
 
 function dynamicSearch(searchKeyId, dynamicSearchPanel)
 {
-
-
-
-//keyUp , ajaxGetData
+    //keyUp , ajaxGetData
     $(searchKeyId).keyup(function(event){
 
         var formData = $(this).parents('form.dynamicSearch').serialize();
@@ -134,6 +131,15 @@ function dynamicSearch(searchKeyId, dynamicSearchPanel)
                     $(dynamicSearchPanel).append('<div class="error">Not find  "' + keywords + '"</div>');
                 }
                 $.each(data.studentIndex, function(){
+                    $(dynamicSearchPanel).append('<div class="form-control click_work " style="cursor: pointer">'+ this +'</div>');
+                })
+
+                $.each(data.teamIndex, function(){
+                    $(dynamicSearchPanel).append('<div class="form-control click_work " style="cursor: pointer">'+ this +'</div>');
+                })
+
+                $.each(data.feedbackQustionIndex, function(){
+                    console.log(this);
                     $(dynamicSearchPanel).append('<div class="form-control click_work " style="cursor: pointer">'+ this +'</div>');
                 })
             },
