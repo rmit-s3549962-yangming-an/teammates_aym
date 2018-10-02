@@ -724,14 +724,14 @@ public class Logic {
     public StudentSearchResultBundle searchTeams(String queryString, List<InstructorAttributes> instructors) {
         Assumption.assertNotNull(queryString);
         Assumption.assertNotNull(instructors);
-        String teamQueryString = "Team =" + queryString;
+        String teamQueryString = "\"" + queryString + "\"";
         return studentsLogic.searchTeams(teamQueryString, instructors);
     }
 
 
     /**
      * Search for teams. Preconditions: all parameters are non-null.
-     * @param instructors   a list of InstructorAttributes associated to a googleId,
+     * @param queryString   a list of InstructorAttributes associated to a googleId,
      *                      used for filtering of search result
      * @return Null if no match found
      */
