@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.storage.api.StudentsDb;
 import teammates.test.driver.AssertHelper;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,12 +31,26 @@ public class StudentAjaxSearchTest extends BaseSearchTest {
         StudentAttributes stu2InUnregCourse = dataBundle.students.get("student2InUnregisteredCourse");
         StudentAttributes stu1InArchCourse = dataBundle.students.get("student1InArchivedCourse");
 
-        ______TS("success: search for students in whole system; query string does not match any student");
+
+        InstructorAttributes ins1InCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes ins2InCourse1 = dataBundle.instructors.get("instructor2OfCourse1");
+        InstructorAttributes helperInCourse1 = dataBundle.instructors.get("helperOfCourse1");
+        InstructorAttributes ins1InCourse2 = dataBundle.instructors.get("instructor1OfCourse2");
+
+        List<InstructorAttributes> instructors = new ArrayList<>();
+        instructors.add(ins1InCourse1);
+        instructors.add(ins2InCourse1);
+        instructors.add(helperInCourse1);
+        instructors.add(ins1InCourse2);
+
+        ______TS("success: search for student1");
 
         StudentSearchResultBundle bundle =
-                studentsDb.searchStudentsInWholeSystem("alice");
+                studentsDb.search("student1",instructors);
 
-        assertEquals(1, bundle.numberOfResults);
+        assertEquals(2, bundle.numberOfResults);
+
+
 
 
 
