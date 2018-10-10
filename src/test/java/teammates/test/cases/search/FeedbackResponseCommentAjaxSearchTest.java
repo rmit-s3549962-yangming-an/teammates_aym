@@ -29,10 +29,17 @@ public class FeedbackResponseCommentAjaxSearchTest extends BaseSearchTest {
 
         ArrayList<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
 
-        ______TS("success: search for comments; no results found as instructor doesn't have privileges");
+        ______TS("success: search for comments; instructor1@course1");
 
         instructors.add(dataBundle.instructors.get("helperOfCourse1"));
         FeedbackResponseCommentSearchResultBundle bundle = commentsDb.search("instructor1@course1", instructors);
+        assertEquals(1, bundle.sessions.size());
+
+
+
+
+        instructors.add(dataBundle.instructors.get("helperOfCourse1"));
+          bundle = commentsDb.search("course1", instructors);
         assertEquals(1, bundle.sessions.size());
 
 
