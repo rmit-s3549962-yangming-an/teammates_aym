@@ -35,9 +35,19 @@ public class TeamSearchTest extends BaseSearchTest  {
         ______TS("success: search Team 1");
 
         StudentSearchResultBundle bundle =
-                studentsDb.searchStudentsInWholeSystem("Team 1");
+                studentsDb.searchStudentsInWholeSystem("\"Team 1\"");
 
-        assertEquals(0, bundle.numberOfResults);
+        assertEquals(6, bundle.numberOfResults);
+
+
+
+        ______TS("success: search whole Team ");
+
+          bundle =
+                studentsDb.searchStudentsInWholeSystem("\"Team\"");
+
+        assertEquals(11, bundle.numberOfResults);
+
 
 
 
